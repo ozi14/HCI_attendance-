@@ -12,6 +12,19 @@ A location-based attendance tracking system for classrooms. Instructors generate
 
 ---
 
+## Live Demo
+
+**URL**: [https://hci-attendance.vercel.app](https://hci-attendance.vercel.app)
+
+### Test Credentials
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | `admin@attendance.app` | `adminadmin1` |
+
+Students can register with any `@northeastern.edu` email.
+
+---
+
 ## Tech Stack
 
 | Layer | Technology |
@@ -68,16 +81,6 @@ Visit `http://localhost:3000`
 
 ---
 
-## Default Credentials
-
-| Role | Email | Password |
-|------|-------|----------|
-| Admin | `admin@attendance.app` | `adminadmin1` |
-
-Students register themselves via the `/register` page (requires `@northeastern.edu` email).
-
----
-
 ## How It Works
 
 ### Admin Flow
@@ -117,12 +120,10 @@ git push origin main
 | `DATABASE_URL` | Your Supabase pooler URL (port 6543) |
 | `DIRECT_URL` | Your Supabase direct URL (port 5432) |
 | `NEXTAUTH_SECRET` | Your secret key |
-| `NEXTAUTH_URL` | `https://your-app.vercel.app` |
-| `NEXT_PUBLIC_APP_URL` | `https://your-app.vercel.app` |
+| `NEXTAUTH_URL` | `https://hci-attendance.vercel.app` |
+| `NEXT_PUBLIC_APP_URL` | `https://hci-attendance.vercel.app` |
 
 3. Deploy
-4. After first deploy, update `NEXTAUTH_URL` and `NEXT_PUBLIC_APP_URL` with the actual Vercel URL
-5. Redeploy
 
 ### 3. Seed Production Database
 Run locally (your `.env` points to the same Supabase DB):
