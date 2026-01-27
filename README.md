@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Attendance App
 
-## Getting Started
+## Setup Instructions
 
-First, run the development server:
-
+### 1. Installation
+Install dependencies:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Environment Variables
+Create a `.env` file in the root directory with the following content. I have already generated a secret for you in the setup process, but verify it exists.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```env
+DATABASE_URL="file:./dev.db"
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your-generated-secret-value"
+```
+*Note: You can generate a new secret using `openssl rand -base64 32` if needed.*
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. Database Setup
+The database uses SQLite. Initialize it and apply the schema:
+```bash
+npx prisma migrate dev --name init
+```
 
-## Learn More
+Seed the database with an initial Admin user:
+```bash
+npx tsx prisma/seed.ts
+```
+**Default Admin Credentials:**
+- **Email/Username**: `admin123`
+- **Password**: `adminadmin1`
 
-To learn more about Next.js, take a look at the following resources:
+### 4. Running the App
+Start the development server:
+```bash
+npm run dev
+```
+Visit `http://localhost:3000` to see the app.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Architecture & Features
 
-## Deploy on Vercel
+### Tech Stack
+- **Framework**: Next.js 15 (App Router)
+- **Language**: TypeScript
+- **Database**: SQLite (via Prisma ORM)
+- **Auth**: NextAuth.js (Credentials Provider)
+- **Styling**: Tailwind CSS & Lucide Icons
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Completed Features
+1.  **Backend Foundation**:
+    - Prisma Schema (Users, ClassSessions, AttendanceRecords).
+    - NextAuth configuration with Role-based access (Admin vs Student).
+    - Registration API.
+2.  **User Interface**:
+    - **Landing Page**: Modern entry point (`app/page.tsx`).
+    - **Authentication**: Fully functional Login (`app/login/page.tsx`) and Registration (`app/register/page.tsx`) pages.
+    - **Role-Based Dashboard**:
+        - Automatic routing in `app/dashboard/page.tsx`.
+        - **Admin View**: Placeholder for class management.
+        - **Student View**: Placeholder for QR scanning.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## What is needed for a Working Demo?
+
+To complete the demo functionality:
+
+1.  **Admin Dashboard Logic**:
+    - Implement "Create Session" modal (POST to API).
+    - Generate and display QR Code for the session.
+    - Fetch and display active sessions.
+2.  **Student Dashboard Logic**:
+    - Implement QR Code Scanner integration (`html5-qrcode`).
+    - Implement Geolocation check (Browser API).
+    - POST attendance to API.

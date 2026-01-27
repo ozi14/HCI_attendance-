@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("STUDENT") // "ADMIN" or "STUDENT"
+  studentId String?  // Only for students
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  attendance AttendanceRecord[]
+}
+
+model ClassSession {
+  id          String   @id @default(cuid())
+  name        String   // e.g., "Lecture 1"
+  date        DateTime @default(now())
+  isActive    Boolean  @default(true)
+  latitude    Float
+  longitude   Float
+  radius      Float    // Allowed radius in meters
+  
+  // Random token for QR code to prevent reuse if needed, or just use ID
+  qrToken     String   @default(cuid()) 
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  records     AttendanceRecord[]
+}
+
+model AttendanceRecord {
+  id            String       @id @default(cuid())
+  userId        String
+  sessionId     String
+  timestamp     DateTime     @default(now())
+  status        String       @default("PRESENT")
+  
+  user          User         @relation(fields: [userId], references: [id])
+  session       ClassSession @relation(fields: [sessionId], references: [id])
+
+  @@unique([userId, sessionId]) // One record per user per session
+}
