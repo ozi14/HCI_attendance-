@@ -13,7 +13,9 @@ export async function POST(req: Request) {
       );
     }
 
-    if (!email.endsWith("@northeastern.edu")) {
+    const normalizedEmail = email.trim().toLowerCase();
+
+    if (!normalizedEmail.endsWith("@northeastern.edu")) {
       return NextResponse.json(
         { error: "Please use your Northeastern email address" },
         { status: 400 }
@@ -21,7 +23,7 @@ export async function POST(req: Request) {
     }
 
     const existingUser = await prisma.user.findUnique({
-      where: { email },
+      where: { email: normalizedEmail },
     });
 
     if (existingUser) {
@@ -31,14 +33,14 @@ export async function POST(req: Request) {
       );
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password.trim(), 10);
 
     const user = await prisma.user.create({
       data: {
-        name,
-        email,
+        name: name.trim(),
+        email: normalizedEmail,
         password: hashedPassword,
-        studentId,
+        studentId: studentId?.trim(),
         role: "STUDENT",
       },
     });
