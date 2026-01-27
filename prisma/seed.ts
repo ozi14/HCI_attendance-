@@ -13,7 +13,7 @@ const prisma = new PrismaClient({
 })
 
 async function main() {
-  const adminEmail = 'admin@example.com'
+  const adminEmail = 'admin@attendance.app'
   const adminPassword = 'adminadmin1'
   
   const hashedPassword = await bcrypt.hash(adminPassword, 10)

@@ -70,9 +70,9 @@ Visit `http://localhost:3000`
 
 ## Default Credentials
 
-| Role | Email/Username | Password |
-|------|----------------|----------|
-| Admin | `admin123` | `adminadmin1` |
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | `admin@attendance.app` | `adminadmin1` |
 
 Students register themselves via the `/register` page (requires `@northeastern.edu` email).
 
