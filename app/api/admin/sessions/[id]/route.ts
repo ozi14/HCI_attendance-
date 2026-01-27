@@ -50,6 +50,12 @@ export async function DELETE(
   try {
     const { id } = await params;
 
+    // Delete all attendance records first
+    await prisma.attendanceRecord.deleteMany({
+      where: { sessionId: id },
+    });
+
+    // Then delete the session
     await prisma.classSession.delete({
       where: { id },
     });
