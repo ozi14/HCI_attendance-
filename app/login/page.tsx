@@ -24,8 +24,8 @@ function LoginForm() {
     try {
       const result = await signIn("credentials", {
         redirect: false,
-        email: email.trim(),
-        password: password.trim(),
+        email,
+        password,
         callbackUrl,
       });
 
